@@ -1,7 +1,0 @@
-FROM php:7.3-fpm
-
-# 安装 PHP Redis、pdo_mysql 和 sockets 扩展
-RUN  pecl install redis \
-    && docker-php-ext-enable redis 
-
-RUN docker-php-ext-install pdo_mysql sockets    

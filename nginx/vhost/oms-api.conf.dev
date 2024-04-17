@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    server_name oms-api.localhost;
+
+    location / {
+        proxy_pass http://node:9527;  # 将请求代理到 Node.js 服务的 9527 端口
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

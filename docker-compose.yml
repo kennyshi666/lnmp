@@ -11,9 +11,22 @@ services:
       - ./nginx/vhost:/etc/nginx/vhost
       - D:/work:/var/www/html
 
-  php:
+  php7.3:
     build:
       context: .
-      dockerfile: docker-compose-php
+      dockerfile: dockerfile-php7.3
     volumes:
       - D:/work:/var/www/html
+  php7.4:
+    build:
+      context: .
+      dockerfile: dockerfile-php7.4
+    volumes:
+      - D:/work:/var/www/html
+  node:
+    image: node:14.16
+    volumes:
+      - D:/work:/var/www/html
+    ports:
+      - "9527:9527"
+    command: tail -f /dev/null  # 指定一个简单的命令来保持容器持续运行
