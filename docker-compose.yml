@@ -29,4 +29,5 @@ services:
       - D:/work:/var/www/html
     ports:
       - "9527:9527"
+      - "9528:9528"
     command: tail -f /dev/null  # 指定一个简单的命令来保持容器持续运行
