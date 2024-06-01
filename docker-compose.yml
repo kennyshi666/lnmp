@@ -10,6 +10,11 @@ services:
       - ./nginx/fastcgi_params:/etc/nginx/fastcgi_params
       - ./nginx/vhost:/etc/nginx/vhost
       - D:/work:/var/www/html
+      - ./nginx/hosts:/etc/hosts-modification  # 为nginx容器挂载hosts文件修改
+    networks:
+      app-network:
+        ipv4_address: 172.23.0.4  # 为nginx容器分配固定IP地址
+    command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && nginx -g 'daemon off;'"]  # 启动nginx容器时追加hosts文件内容到/etc/hosts文件
 
   php7.3:
     build:
@@ -17,12 +22,22 @@ services:
       dockerfile: dockerfile-php7.3
     volumes:
       - D:/work:/var/www/html
+      - ./php73/hosts:/etc/hosts-modification:rw  # 为php7.3容器挂载hosts文件修改
+    networks:
+      app-network:
+        ipv4_address: 172.23.0.5  # 为php7.3容器分配固定IP地址
+    command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && php-fpm"]  # 启动php7.3容器时追加hosts文件内容到/etc/hosts文件并启动php-fpm服务
+
   php7.4:
     build:
       context: .
       dockerfile: dockerfile-php7.4
     volumes:
       - D:/work:/var/www/html
+    networks:
+      app-network:
+        ipv4_address: 172.23.0.6  # 为php7.4容器分配固定IP地址
+
   node:
     image: node:14.16
     volumes:
@@ -31,3 +46,14 @@ services:
       - "9527:9527"
       - "9528:9528"
     command: tail -f /dev/null  # 指定一个简单的命令来保持容器持续运行
+    networks:
+      app-network:
+        ipv4_address: 172.23.0.7  # 为node容器分配固定IP地址
+
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.23.0.0/16  # 定义IP地址范围
