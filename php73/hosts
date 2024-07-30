@@ -1,4 +1,4 @@
-172.23.0.4 wms.localhost
+172.23.0.4   wms.localhost
 172.23.0.4   adm.localhost
 172.23.0.4   erp.localhost
 172.23.0.4   finance.localhost
@@ -9,4 +9,4 @@
 172.23.0.4   oms-api.localhost
 172.23.0.4   purchase.localhost
 172.23.0.4   purchase-api.localhost
-127.0.0.1   logistics.localhost
+127.23.0.4   logistics.localhost
