@@ -8,3 +8,5 @@
 127.0.0.1   oms.localhost
 127.0.0.1   oms-api.localhost
 127.0.0.1   purchase.localhost
+127.0.0.1   purchase-api.localhost
+127.0.0.1   logistics.localhost

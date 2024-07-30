@@ -26,6 +26,8 @@ services:
     networks:
       app-network:
         ipv4_address: 172.23.0.5  # 为php7.3容器分配固定IP地址
+    ports:
+      - "2346:2346"
     command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && php-fpm"]  # 启动php7.3容器时追加hosts文件内容到/etc/hosts文件并启动php-fpm服务
 
   php7.4:

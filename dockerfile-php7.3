@@ -3,7 +3,7 @@ FROM php:7.3-fpm
 # 安装 PHP Redis、pdo_mysql 和 sockets 扩展
 RUN pecl install redis \
     && docker-php-ext-enable redis \
-    && docker-php-ext-install pdo_mysql sockets pcntl
+    && docker-php-ext-install pdo_mysql sockets pcntl bcmath
 
 # 安装 libzip 开发包
 RUN apt-get update && apt-get install -y libzip-dev
