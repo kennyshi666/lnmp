@@ -69,6 +69,7 @@ services:
       volumes:
         - ./logstash/config:/usr/share/logstash/config
         - /Users/kenny/Desktop/work/log:/var/www/html/log/ # 挂载日志文件
+        - ./logstash/log:/var/log/logstash/  # 宿主机的目录映射到容器
       networks:
         app-network:
           ipv4_address: 172.23.0.12
