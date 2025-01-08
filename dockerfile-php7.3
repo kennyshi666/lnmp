@@ -15,13 +15,24 @@ RUN sed -i 's|http://deb.debian.org|http://mirrors.aliyun.com|g' /etc/apt/source
         sudo \
         python3 \
         python3-pip \
+        build-essential \
+        cmake \
+        wget \
+        zlib1g-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# 安装 PHP 扩展
-RUN pecl install redis \
-    && docker-php-ext-enable redis \
-    && docker-php-ext-install pdo_mysql sockets pcntl bcmath zip
+# 安装 Redis PHP 扩展（使用 http 协议）
+RUN git clone -b 5.3.7 http://github.com/phpredis/phpredis.git /usr/src/php/ext/redis && \
+    cd /usr/src/php/ext/redis && \
+    phpize && \
+    ./configure && \
+    make && \
+    make install && \
+    docker-php-ext-enable redis
+
+# 安装其他 PHP 扩展
+RUN docker-php-ext-install pdo_mysql sockets pcntl bcmath zip
 
 # 安装 PyPDF2
 RUN pip3 install PyPDF2
@@ -31,12 +42,21 @@ RUN pecl channel-update pecl.php.net \
     && pecl install swoole-4.8.11 \
     && docker-php-ext-enable swoole
 
-# 安装 MongoDB PHP 扩展
-RUN pecl install mongodb-1.6.0 \
-    && docker-php-ext-enable mongodb
+# 手动安装 libxlsxwriter
+RUN git clone https://gitee.com/ChrisZhcn/libxlsxwriter.git /usr/src/libxlsxwriter && \
+    cd /usr/src/libxlsxwriter && \
+    cmake . && \
+    make && \
+    make install && \
+    ldconfig
+
+# 安装 xlswriter PHP 扩展
+RUN pecl install xlswriter \
+    && docker-php-ext-enable xlswriter
 
 # 安装 Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && chmod +x /usr/local/bin/composer
 
 # 设置工作目录
 WORKDIR /var/www/html

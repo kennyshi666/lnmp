@@ -8,13 +8,17 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/fastcgi_params:/etc/nginx/fastcgi_params
+      - ./nginx/template:/etc/nginx/template
       - ./nginx/vhost:/etc/nginx/vhost
       - /Users/kenny/Desktop/work:/var/www/html
       - ./nginx/hosts:/etc/hosts-modification
+      - ./nginx/start.sh:/start.sh
+    environment:
+      PHP_FPM_SERVICE: php7.3
     networks:
       app-network:
         ipv4_address: 172.23.0.4
-    command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && nginx -g 'daemon off;'"]
+    command: ["/bin/sh", "/start.sh"]
 
   php7.3:
     build:
@@ -27,6 +31,19 @@ services:
     networks:
       app-network:
         ipv4_address: 172.23.0.5
+    command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && php-fpm"]
+
+  php7.4:
+    build:
+      dockerfile: dockerfile-php7.4
+    volumes:
+      - /Users/kenny/Desktop/work:/var/www/html
+      - ./php73/hosts:/etc/hosts-modification:rw
+    ports:
+      - "9003:9003"
+    networks:
+      app-network:
+        ipv4_address: 172.23.0.10
     command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && php-fpm"]
 
   node:
@@ -82,5 +99,5 @@ networks:
       config:
         - subnet: 172.23.0.0/16
 
-volumes:
-  mysql-data:
+# volumes:
+#   #mysql-data:
