@@ -14,7 +14,7 @@ services:
       - ./nginx/hosts:/etc/hosts-modification
       - ./nginx/start.sh:/start.sh
     environment:
-      PHP_FPM_SERVICE: php7.4
+      PHP_FPM_SERVICE: php-xdebug
     networks:
       app-network:
         ipv4_address: 172.23.0.4
@@ -33,9 +33,9 @@ services:
         ipv4_address: 172.23.0.5
     command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && php-fpm"]
 
-  php7.4:
+  php-xdebug:
     build:
-      dockerfile: dockerfile-php7.4
+      dockerfile: dockerfile-php73-xdebug
     volumes:
       - /Users/kenny/Desktop/work:/var/www/html
       - ./php73/hosts:/etc/hosts-modification:rw
