@@ -49,7 +49,7 @@ RUN git clone https://gitee.com/ChrisZhcn/libxlsxwriter.git /usr/src/libxlsxwrit
 RUN pecl install xlswriter \
     && docker-php-ext-enable xlswriter
 
-# 安装xdebug
+# 安装 xdebug 并配置
 RUN curl -fsSL https://xdebug.org/files/xdebug-3.1.6.tgz -o xdebug.tgz \
     && mkdir -p /usr/src/xdebug \
     && tar -xf xdebug.tgz -C /usr/src/xdebug --strip-components=1 \
@@ -58,9 +58,16 @@ RUN curl -fsSL https://xdebug.org/files/xdebug-3.1.6.tgz -o xdebug.tgz \
     && phpize \
     && ./configure \
     && make \
-    && make install \
-    && docker-php-ext-enable xdebug
+    && make install
 
+RUN echo "zend_extension=xdebug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.log=/var/www/html/log/xdebug.log" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.max_nesting_level=512" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # 安装 Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
@@ -69,4 +76,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # 设置工作目录
 WORKDIR /var/www/html
 
-EXPOSE 9003
+
