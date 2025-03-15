@@ -40,55 +40,12 @@ services:
       - /Users/kenny/Desktop/work:/var/www/html
       - ./php73/hosts:/etc/hosts-modification:rw
       - ./php74/xdebug.log:/var/www/html/log/xdebug.log:rw
+    environment:
+      PHP_IDE_CONFIG: "serverName=php-cli" 
     networks:
       app-network:
         ipv4_address: 172.23.0.10
     command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && php-fpm"]
-
-  node:
-    image: node:14.16
-    volumes:
-      - /Users/kenny/Desktop/work:/var/www/html
-      - ./php73/hosts:/etc/hosts-modification:rw
-    ports:
-      - "9527:9527"
-      - "9528:9528"
-    command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && tail -f /dev/null"]
-    networks:
-      app-network:
-        ipv4_address: 172.23.0.7
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    environment:
-      - discovery.type=single-node
-    ports:
-      - "9200:9200"
-    networks:
-      app-network:
-        ipv4_address: 172.23.0.8
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.10.1
-    ports:
-      - "5601:5601"
-    networks:
-      app-network:
-        ipv4_address: 172.23.0.9
-    depends_on:
-      - elasticsearch
-
-  logstash:
-      image: docker.elastic.co/logstash/logstash:7.10.1
-      ports:
-        - "5044:5044" # 如果需要
-      volumes:
-        - ./logstash/config:/usr/share/logstash/config
-        - /Users/kenny/Desktop/work/log:/var/www/html/log/ # 挂载日志文件
-        - ./logstash/log:/var/log/logstash/  # 宿主机的目录映射到容器
-      networks:
-        app-network:
-          ipv4_address: 172.23.0.12
 
 networks:
   app-network:
