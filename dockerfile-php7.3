@@ -19,6 +19,9 @@ RUN sed -i 's|http://deb.debian.org|http://mirrors.aliyun.com|g' /etc/apt/source
         cmake \
         wget \
         zlib1g-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -30,6 +33,12 @@ RUN git clone -b 5.3.7 http://github.com/phpredis/phpredis.git /usr/src/php/ext/
     make && \
     make install && \
     docker-php-ext-enable redis
+
+# 安装 GD 扩展（兼容 PHP 7.3）
+RUN docker-php-ext-configure gd \
+    --with-freetype-dir=/usr/include/ \
+    --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install gd
 
 # 安装其他 PHP 扩展
 RUN docker-php-ext-install pdo_mysql sockets pcntl bcmath zip
@@ -51,7 +60,8 @@ RUN git clone https://gitee.com/ChrisZhcn/libxlsxwriter.git /usr/src/libxlsxwrit
     ldconfig
 
 # 安装 xlswriter PHP 扩展
-RUN pecl install xlswriter \
+RUN pecl update \
+    && pecl install xlswriter-1.5.8 \
     && docker-php-ext-enable xlswriter
 
 # 安装 Composer

@@ -10,3 +10,4 @@
 172.23.0.4   purchase.localhost
 172.23.0.4   purchase-api.localhost
 127.23.0.4   logistics.localhost
+127.23.0.4   pms-api.localhost
