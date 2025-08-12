@@ -8,6 +8,12 @@
 ### 2. 安装Docker Desktop
 下载并安装Docker Desktop，确保Docker服务正常运行。
 
+在docker desktop里面配置docker engine加上下面配置
+  "registry-mirrors": [
+    "https://docker.m.daocloud.io",
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ]
 ## 部署步骤
 
 ### 3. 启动容器服务

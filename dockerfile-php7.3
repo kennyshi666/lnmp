@@ -1,9 +1,6 @@
-FROM php:7.3-fpm
+FROM docker.m.daocloud.io/library/php:7.3-fpm
 
-# 更换为阿里云的 Debian 源并安装必要的包
-RUN sed -i 's|http://deb.debian.org|http://mirrors.aliyun.com|g' /etc/apt/sources.list \
-    && sed -i 's|http://security.debian.org|http://mirrors.aliyun.com|g' /etc/apt/sources.list \
-    && apt-get update \
+RUN apt-get update \
     && apt-get install -y \
         libzip-dev \
         libssl-dev \
@@ -50,6 +47,25 @@ RUN pip3 install PyPDF2
 RUN pecl channel-update pecl.php.net \
     && pecl install swoole-4.8.11 \
     && docker-php-ext-enable swoole
+
+# 安装 xdebug 并配置
+RUN curl -fsSL https://xdebug.org/files/xdebug-3.1.6.tgz -o xdebug.tgz \
+    && mkdir -p /usr/src/xdebug \
+    && tar -xf xdebug.tgz -C /usr/src/xdebug --strip-components=1 \
+    && rm xdebug.tgz \
+    && cd /usr/src/xdebug \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install
+
+RUN echo "zend_extension=xdebug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.max_nesting_level=512" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # 手动安装 libxlsxwriter
 RUN git clone https://gitee.com/ChrisZhcn/libxlsxwriter.git /usr/src/libxlsxwriter && \
