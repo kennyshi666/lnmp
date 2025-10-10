@@ -5,6 +5,7 @@
 172.23.0.4   jobs-sync.localhost
 172.23.0.4   mid-stock.localhost
 172.23.0.4   middleware.localhost
+172.23.0.4   middleware_v2.localhost
 172.23.0.4   oms.localhost
 172.23.0.4   oms-api.localhost
 172.23.0.4   purchase.localhost

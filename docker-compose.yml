@@ -33,9 +33,9 @@ services:
         ipv4_address: 172.23.0.5
     command: ["/bin/sh", "-c", "cat /etc/hosts-modification >> /etc/hosts && php-fpm"]
 
-  php-xdebug:
+  php-73:
     build:
-      dockerfile: dockerfile-php73-xdebug
+      dockerfile: dockerfile-php73-without-xdebug
     volumes:
       - /Users/kenny/Desktop/work:/var/www/html
       - ./php73/hosts:/etc/hosts-modification:rw
