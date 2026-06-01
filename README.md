@@ -115,7 +115,7 @@ docker-compose restart nginx
 - `pecl` 相关扩展安装仍依赖官方 PECL 通道，可用性受当前网络环境影响
 - `redis`、`swoole`、`xdebug` 已改为从仓库内本地安装包安装
 - `meminfo` 与 `xlswriter` 已改为从仓库内的本地源码目录构建，避免构建阶段再次拉取不稳定外部地址
-- 如果个别扩展安装失败，优先重试 `docker-compose build --no-cache php7.3 php-73`
+- 如果个别扩展安装失败，优先重试 `docker-compose build --no-cache phpdebug php`
 
 ## 常见问题
 
@@ -128,7 +128,7 @@ docker-compose restart nginx
 3. 执行重新构建命令：
 
 ```bash
-docker-compose build --no-cache php7.3 php-73
+docker-compose build --no-cache phpdebug php
 docker-compose up -d
 ```
 
