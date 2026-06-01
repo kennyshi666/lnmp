@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@192.168.32.60" uuid="1fcd5d63-11cb-4a72-9f4d-c9d9f500a44c">
+    <data-source source="LOCAL" name="供应链正式" uuid="91ed9a90-c8d9-4804-b26b-68c4c436fd0b">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://192.168.32.60:3306</jdbc-url>
+      <jdbc-url>jdbc:mysql://pxc-hkr48obg3wwzsh-pub.polarx.rds.aliyuncs.com:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

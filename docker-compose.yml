@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   nginx:
     image: nginx:latest
@@ -10,7 +8,7 @@ services:
       - ./nginx/fastcgi_params:/etc/nginx/fastcgi_params
       - ./nginx/template:/etc/nginx/template
       - ./nginx/vhost:/etc/nginx/vhost
-      - /Users/kenny/Desktop/work:/var/www/html
+      - ${WORKSPACE_PATH}:/var/www/html
       - ./nginx/hosts:/etc/hosts-modification
       - ./nginx/start.sh:/start.sh
     environment:
@@ -24,7 +22,7 @@ services:
     build:
       dockerfile: dockerfile-php7.3
     volumes:
-      - /Users/kenny/Desktop/work:/var/www/html
+      - ${WORKSPACE_PATH}:/var/www/html
       - ./php73/hosts:/etc/hosts-modification:rw
     environment:
       PHP_IDE_CONFIG: "serverName=php-cli"
@@ -37,7 +35,7 @@ services:
     build:
       dockerfile: dockerfile-php73-without-xdebug
     volumes:
-      - /Users/kenny/Desktop/work:/var/www/html
+      - ${WORKSPACE_PATH}:/var/www/html
       - ./php73/hosts:/etc/hosts-modification:rw
       - ./php74/xdebug.log:/var/www/html/log/xdebug.log:rw
     environment:

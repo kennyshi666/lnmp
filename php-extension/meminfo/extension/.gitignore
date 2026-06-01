@@ -1,0 +1,42 @@
+# http://www.gnu.org/software/automake
+
+Makefile.in
+
+# http://www.gnu.org/software/autoconf
+
+autom4te.cache
+aclocal.m4
+compile
+depcomp
+
+# phpize
+.deps
+*.lo
+*.la
+.libs
+Makefile
+Makefile.fragments
+Makefile.global
+Makefile.objects
+acinclude.m4
+build
+config.guess
+config.h
+config.h.in
+config.log
+config.nice
+config.status
+config.sub
+configure
+configure.in
+install-sh
+libtool
+ltmain.sh
+missing
+mkinstalldirs
+modules
+run-tests.php
+include
+
+# PHP tests
+tmp-php.ini
